@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: bds_postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: bds_lab
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
+      - ./csv_data:/csv_data
+    networks:
+      - bds_network
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: bds_clickhouse
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    volumes:
+      - ./clickhouse_data:/var/lib/clickhouse
+      - ./clickhouse_config:/etc/clickhouse-server/config.d
+    networks:
+      - bds_network
+
+  jupyter:
+    image: jupyter/pyspark-notebook:latest
+    container_name: bds_jupyter
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./spark_apps:/home/jovyan/work
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+    networks:
+      - bds_network
+
+networks:
+  bds_network:
+    driver: bridge
