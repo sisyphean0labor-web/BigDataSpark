@@ -25,7 +25,6 @@ services:
       - "9000:9000"
     volumes:
       - ./clickhouse_data:/var/lib/clickhouse
-      - ./clickhouse_config:/etc/clickhouse-server/config.d
     networks:
       - bds_network
 
