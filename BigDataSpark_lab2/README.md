@@ -11,7 +11,7 @@ sudo docker-compose up -d
 
 --получить ссылку на Юпитер
 sudo docker logs bds_jupyter 2>&1 | grep "http://127.0.0.1:8888/lab?token="
---дальше вставляем код из питон файла в яче ку юпитера по полученной ссылке
+--дальше вставляем код из питон файлов в ячейки юпитера по полученной ссылке
 
 --максимальная проверка
 sudo docker exec -it bds_postgres psql -U admin -d bds_lab -c "\dt"
